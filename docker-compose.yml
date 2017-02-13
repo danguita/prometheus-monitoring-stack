@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  grafana:
+    image: grafana/grafana
+    env_file: .env
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    links:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - prometheus_data:/prometheus
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/alert.rules:/etc/prometheus/alert.rules
+    links:
+      - node_exporter
+      - alertmanager
+    command:
+      - -config.file=/etc/prometheus/prometheus.yml
+      - -alertmanager.url=http://alertmanager:9093
+
+  alertmanager:
+    image: prom/alertmanager
+    volumes:
+      - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - -config.file=/etc/alertmanager/alertmanager.yml
+
+  node_exporter:
+    image: prom/node-exporter
+
+volumes:
+  prometheus_data:
+  grafana_data:

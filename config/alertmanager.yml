@@ -1,0 +1,10 @@
+route:
+  receiver: "slack"
+
+receivers:
+  - name: "slack"
+    slack_configs:
+      - send_resolved: true
+        username: "Prometheus"
+        channel: "#notifications"
+        api_url: "https://hooks.slack.com/services/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"
