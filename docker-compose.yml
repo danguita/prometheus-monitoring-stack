@@ -1,13 +1,25 @@
 version: "3"
 
 services:
+  frontend:
+    image: smashwilson/lets-nginx
+    env_file: .env
+    environment:
+      - UPSTREAM=grafana:3000
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - letsencrypt_backups:/var/lib/letsencrypt
+      - dhparam_cache:/cache
+    ports:
+      - "443:443"
+    links:
+      - grafana
+
   grafana:
     image: grafana/grafana
     env_file: .env
     volumes:
       - grafana_data:/var/lib/grafana
-    ports:
-      - 3000:3000
     links:
       - prometheus
 
@@ -37,3 +49,6 @@ services:
 volumes:
   prometheus_data:
   grafana_data:
+  letsencrypt:
+  letsencrypt_backups:
+  dhparam_cache:
