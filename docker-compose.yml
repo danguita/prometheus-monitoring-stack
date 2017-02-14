@@ -40,11 +40,27 @@ services:
     image: prom/alertmanager
     volumes:
       - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    depends_on:
+      - configuration_manager
     command:
       - -config.file=/etc/alertmanager/alertmanager.yml
 
   node_exporter:
     image: prom/node-exporter
+
+  configuration_manager:
+    image: busybox
+    env_file: .env
+    volumes:
+      - ./config:/config
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - sed "s,ALERT_SLACK_USERNAME,$ALERT_SLACK_USERNAME,g;
+             s,ALERT_SLACK_CHANNEL,$ALERT_SLACK_CHANNEL,g;
+             s,ALERT_SLACK_INCOMING_WEBHOOK_URL,$ALERT_SLACK_INCOMING_WEBHOOK_URL,g"
+             /config/alertmanager.template.yml > /config/alertmanager.yml
 
 volumes:
   prometheus_data:
