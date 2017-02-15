@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 5s
+  scrape_interval: 15s
   external_labels:
     monitor: "docker-monitor"
 
@@ -9,6 +9,7 @@ scrape_configs:
       - targets: ["prometheus:9090"]
 
   - job_name: "node"
+    scrape_interval: 5s
     static_configs:
       - targets: ["node_exporter:9100"]
 
