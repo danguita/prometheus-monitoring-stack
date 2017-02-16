@@ -47,6 +47,14 @@ services:
 
   node_exporter:
     image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+    command:
+      - -collector.procfs=/host/proc
+      - -collector.sysfs=/host/sys
+      - -collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"
 
   configuration_manager:
     image: busybox
