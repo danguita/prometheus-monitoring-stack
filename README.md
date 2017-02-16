@@ -86,4 +86,8 @@ visibility on single-node server configurations, so please take them as
 a starting point. For complex architectures and custom instrumentation,
 extra configuration might be needed.
 
-Any feedback is very welcomed.
+Also, please note that the `node_exporter` is being deployed as a Docker
+container, so it might not be exposing metrics from the actual host
+system.
+
+Having said that, any feedback is very welcomed :muscle:
