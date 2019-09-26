@@ -12,6 +12,7 @@ services:
       - dhparam_cache:/cache
     ports:
       - "443:443"
+      - "80:80"
     links:
       - grafana
 
