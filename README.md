@@ -91,3 +91,13 @@ container, so it might not be exposing metrics from the actual host
 system.
 
 Having said that, any feedback is very welcomed :muscle:
+
+## Live Containers Update as  : Promertheus , Alertmanager.
+
+* Prometheus Container 
+
+    ` docker exec <prometheus_container_name> sudo killall -HUP prometheus `
+
+* another  containers 
+     
+     `docker-compose up -d --force-recreate  <container_name>`
